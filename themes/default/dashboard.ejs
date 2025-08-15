@@ -2,72 +2,144 @@
 <html lang="en">
   <%- include('./components/head') %>
   <body>
-    <div style="background-color: #111319" class="container-scroller">
-      <!-- partial:partials/_sidebar.html -->
-      <%- include('./components/sidebar') %>
-      <!-- partial -->
-      <div style="background-color: #111319" class="container-fluid page-body-wrapper">
-        <!-- partial:partials/_navbar.html -->
-        <%- include('./components/topnav') %>
-        <!-- partial -->
-        <div style="background-color: #111319" class="main-panel">
-          <div style="background-color: #111319" class="content-wrapper">
+    <!-- Background Image -->
+    <div id="background" style="
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.steamusercontent.com/ugc/45703681083039617/D85B1D9F2373076CAF06034BD34629DE30A90597/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true') no-repeat center center fixed;
+      background-size: cover;
+      z-index:0;
+    "></div>
 
-           <h2>Dashboard</h2>
-           <p class="text-gray">View your resources & other things here.</p>
+    <!-- Red Particles -->
+    <div id="particles-js" style="position: fixed; width:100%; height:100%; z-index:1;"></div>
+    <!-- White Particles -->
+    <div id="particles-white" style="position: fixed; width:100%; height:100%; z-index:1;"></div>
+    <!-- Screen Crack Overlay -->
+    <div id="screen-crack" style="
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      background: url('/path/to/screen-crack.png') no-repeat center center;
+      background-size: cover;
+      pointer-events:none;
+      z-index:2;
+      mix-blend-mode: overlay;
+      opacity:0.2;
+    "></div>
+
+    <div class="container-scroller" style="position: relative; z-index:3;">
+      <!-- Sidebar -->
+      <%- include('./components/sidebar') %>
+
+      <div class="container-fluid page-body-wrapper">
+        <!-- Navbar -->
+        <%- include('./components/topnav') %>
+
+        <!-- Main Panel -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+
+            <!-- Dash Creator Text -->
+            <h1 class="center-glow-text">Dash Made by Lapiogamer</h1>
+
+            <!-- Announcement -->
+            <div class="announcement-wrapper">
+              <p id="announcement-text">⚡ Welcome to ChunkHost Dashboard! ⚡</p>
+              <p class="sub-announcement">Panel, Node, Dashboard Work Fine. Deploy your free Server Now.</p>
+            </div>
+
+            <!-- Description -->
+            <p class="description-glow">View your resources & other things here.</p>
+
+            <!-- Profile & Coins -->
+            <div class="profile-glow">
+              <%- include('./components/status') %>
+              <p class="coin-display">💰 Coins: <%= req.session.userinfo.coins %></p>
+            </div>
 
             <%- include('./components/alert') %>
-            <% if (req.query.err == "ALREADY_OPEN") { %>
-                <div class="alert">
-                	You can't open multiple tabs!
-            	</div>
-            <% } else if (req.query.err === "CANNOTAFFORDRENEWAL") { %>
-              <div class="alert" style="background-color: #007fcc; border-radius: 15px;">
-                You need at least <%= settings.renewals.cost %> coins to purchase a server renewal!
-            </div>
-            <% } if (req.query.success === 'RENEWED') { %>
-              <div class="alert" style="background-color: #007fcc; border-radius: 15px;">
-                Succesfully purchased renewal for server!
-            </div>
-            <% } if (req.session.newaccount || req.session.password) { %>
-            <div style="background-color: #007fcc; border-radius: 15px" class="alert">
-                <% if (req.session.newaccount) { %>
-                    Welcome! You are a first time user<br>
-                <% } %>
-                <% if (req.session.password) { %>
-                    Your password has been changed to <%= req.session.password %>, however if you do not save that then you can just reset it via the "Account Settings" page
-                <% } else { %>
-                    Please head over to Settings to create a password.
-                <% } %>
-            </div>
-        <% } %>
-        <%- include('./components/status') %>
-            <div class="row ">
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <%- include('./boxes/1') %>
-                    </div>
-                  </div>
-                </div>
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <%- include('./boxes/2') %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-         
+
+          </div>
           <!-- content-wrapper ends -->
-          <%- include('./components/footer') %>
+
+          <!-- Footer -->
+          <footer style="text-align:center; color:#fff; font-weight:bold; text-shadow:0 0 10px #ff00ff;">
+            Powered by ChunkHost
+          </footer>
+          
         </div>
         <!-- main-panel ends -->
       </div>
       <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
+
     <%- include('./components/scripts') %>
+
+    <!-- Custom CSS -->
+    <style>
+      body { font-family: 'Roboto Mono', monospace; overflow:hidden; }
+
+      /* Center Glowing Dash Text */
+      .center-glow-text {
+        text-align:center;
+        font-size:32px;
+        font-weight:bold;
+        color:#fff;
+        text-shadow:0 0 20px #ff0000,0 0 40px #ff00ff,0 0 60px #00ffff;
+        margin-top:20px;
+        animation: glowPulse 2.5s ease-in-out infinite alternate;
+      }
+      @keyframes glowPulse {
+        0% { text-shadow:0 0 15px #ff0000,0 0 30px #ff00ff,0 0 50px #00ffff; }
+        50% { text-shadow:0 0 25px #ff0000,0 0 50px #ff00ff,0 0 80px #00ffff; }
+        100% { text-shadow:0 0 15px #ff0000,0 0 30px #ff00ff,0 0 50px #00ffff; }
+      }
+
+      /* Announcement */
+      .announcement-wrapper { text-align:center; margin:15px 0; }
+      #announcement-text { font-size:22px; font-weight:bold; color:#fff; text-shadow:0 0 15px #ff0000,0 0 25px #ff00ff; animation: bounce 3s ease-in-out infinite; }
+      .sub-announcement { font-size:16px; font-weight:bold; color:#fff; text-shadow:0 0 10px #ff0000,0 0 20px #ff00ff; animation: bounce 3s ease-in-out infinite alternate; }
+      @keyframes bounce {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
+      /* Description Glow */
+      .description-glow { text-align:center; font-weight:bold; font-size:18px; color:#fff; text-shadow:0 0 10px #ff0000,0 0 20px #ff00ff; margin-bottom:20px; animation: moveGlow 3s infinite alternate; }
+      @keyframes moveGlow {0%{text-shadow:0 0 5px #ff0000,0 0 10px #ff00ff;}50%{text-shadow:0 0 15px #ff0000,0 0 30px #ff00ff;}100%{text-shadow:0 0 5px #ff0000,0 0 10px #ff00ff;}}
+
+      /* Profile Glow & Coins */
+      .profile-glow { margin:20px auto; text-align:center; padding:10px; border-radius:10px; box-shadow:0 0 20px #ff00ff,0 0 30px #ff0000,0 0 40px #00ffff; animation: pulse 3s ease-in-out infinite alternate; }
+      @keyframes pulse {0%{box-shadow:0 0 20px #ff00ff,0 0 30px #ff0000,0 0 40px #00ffff;}50%{box-shadow:0 0 40px #ff00ff,0 0 60px #ff0000,0 0 80px #00ffff;}100%{box-shadow:0 0 20px #ff00ff,0 0 30px #ff0000,0 0 40px #00ffff;}}
+      .coin-display { font-size:18px; font-weight:bold; color:#fff; text-shadow:0 0 10px #ffff00,0 0 20px #ff9900; margin-top:10px; }
+
+    </style>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+      // Red particles
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 80 },
+          color: { value: "#ff0000" },
+          shape: { type: "circle" },
+          opacity: { value: 0.8 },
+          size: { value: 3 },
+          move: { enable: true, speed: 1.5, direction: "none", random: true }
+        },
+        interactivity: { events: { onhover: { enable: true, mode: "repulse" } } }
+      });
+      // White particles
+      particlesJS("particles-white", {
+        particles: {
+          number: { value: 60 },
+          color: { value: "#ffffff" },
+          shape: { type: "circle" },
+          opacity: { value: 0.5 },
+          size: { value: 2 },
+          move: { enable: true, speed: 1, direction: "none", random: true }
+        }
+      });
+    </script>
   </body>
 </html>
