@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <%- include('./components/head') %>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,12 +28,12 @@ body, html {
 .container {
     position: relative;
     z-index: 1;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.6);
     padding: 40px;
     border-radius: 15px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
-    width: 320px;
+    width: 350px;
     text-align: center;
     color: #fff;
     margin: 100px auto;
@@ -87,13 +89,13 @@ h2 {
     <h2>Login to Dashboard</h2>
 
     <% if (!req.session.userinfo) { %>
-        <!-- Redirect user to Discord OAuth -->
-        <a href="/auth/discord">
+        <a href="<%= extra.home.buttontext.loggedout.link %>">
             <button class="discord-btn">Login with Discord</button>
         </a>
     <% } else { %>
-        <!-- Already logged in: redirect to dashboard -->
-        <script>window.location.href = "<%= extra.home.buttontext.loggedin.link %>";</script>
+        <a href="<%= extra.home.buttontext.loggedin.link %>">
+            <button class="discord-btn">Continue as <%= req.session.userinfo.username %>#<%= req.session.userinfo.discriminator %></button>
+        </a>
     <% } %>
 </div>
 
@@ -132,3 +134,4 @@ particlesJS("particles-js", {
 
 <%- include('./components/scripts') %>
 </body>
+</html>
