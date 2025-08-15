@@ -1,108 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Login</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            background: url('https://wallpapers.com/images/featured/lightning-background-tvxtv3kkbzdxu3ta.jpg') no-repeat center center fixed;
-            background-size: cover;
-            position: relative;
-        }
+<%- include('./components/head') %>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
 
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
+<style>
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: url('https://wallpapers.com/images/featured/lightning-background-tvxtv3kkbzdxu3ta.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+}
 
-        .container {
-            position: relative;
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            width: 320px;
-            text-align: center;
-            color: #fff;
-            margin: 100px auto;
-        }
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
 
-        h2 {
-            margin-bottom: 20px;
-        }
+.container {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    width: 320px;
+    text-align: center;
+    color: #fff;
+    margin: 100px auto;
+}
 
-        /* Rainbow animation for button */
-        .discord-btn {
-            background: #7289da;
-            position: relative;
-            overflow: hidden;
-            color: white;
-            padding: 15px;
-            border: none;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            z-index: 1;
-        }
+h2 {
+    margin-bottom: 20px;
+}
 
-        .discord-btn::before {
-            content: "";
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet, red);
-            background-size: 400% 400%;
-            z-index: -1;
-            border-radius: 10px;
-            animation: rainbow 5s linear infinite;
-        }
+/* Rainbow animated Discord button */
+.discord-btn {
+    background: #7289da;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    padding: 15px;
+    border: none;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1;
+}
 
-        .discord-btn:hover {
-            background: #5b6eae;
-        }
+.discord-btn::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet, red);
+    background-size: 400% 400%;
+    z-index: -1;
+    border-radius: 10px;
+    animation: rainbow 5s linear infinite;
+}
 
-        @keyframes rainbow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-    </style>
-</head>
+.discord-btn:hover {
+    background: #5b6eae;
+}
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+</style>
+
 <body>
-    <div id="particles-js"></div>
+<div id="particles-js"></div>
 
-    <div class="container">
-        <h2>Login to Dashboard</h2>
+<div class="container">
+    <h2>Login to Dashboard</h2>
+
+    <% if (!req.session.userinfo) { %>
+        <!-- Redirect user to Discord OAuth -->
         <a href="/auth/discord">
             <button class="discord-btn">Login with Discord</button>
         </a>
-    </div>
+    <% } else { %>
+        <!-- Already logged in: redirect to dashboard -->
+        <script>window.location.href = "<%= extra.home.buttontext.loggedin.link %>";</script>
+    <% } %>
+</div>
 
-    <!-- Particles.js -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script>
-        particlesJS("particles-js", {
-            "particles": {
-                "number": { "value": 80 },
-                "size": { "value": 3 },
-                "move": { "speed": 1 },
-                "line_linked": { "enable": true, "distance": 150, "opacity": 0.4 },
-                "color": { "value": "#ffffff" }
-            }
-        });
-    </script>
+<!-- Particles.js -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+particlesJS("particles-js", {
+    "particles": {
+        "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.6, "random": true },
+        "size": { "value": 2, "random": true },
+        "line_linked": { "enable": false },
+        "move": {
+            "enable": true,
+            "speed": 1,
+            "direction": "none",
+            "random": true,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false
+        }
+    },
+    "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+            "onhover": { "enable": false },
+            "onclick": { "enable": false },
+            "resize": true
+        }
+    },
+    "retina_detect": true
+});
+</script>
+
+<%- include('./components/scripts') %>
 </body>
-</html>
