@@ -1,62 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
   <%- include('./components/head') %>
-    <body>
-      <div class="container-scroller">
-        <!-- partial:partials/_sidebar.html -->
-      <%- include('./components/sidebar') %>
-        <!-- partial -->
-        <div class="container-fluid page-body-wrapper">
-          <!-- partial:partials/_navbar.html -->
-           <%- include('./components/topnav') %>
-          <!-- partial -->
-        <div style="background-color: #111319" class="main-panel">
-          <div style="background-color: #111319" class="content-wrapper">
+  <body>
+    <!-- Particle background -->
+    <canvas id="particles"></canvas>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: url("https://i.ytimg.com/vi/qK7rjAQT2Qg/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AHUBoAC4AOKAgwIABABGEQgRyhlMA8=&rs=AOn4CLB6pJYB2UQjYdo40hrA681N1XX06A") no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Roboto Mono', monospace;
+      }
+      #particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+      .card, .navbar, .sidebar, .content-wrapper {
+        background: rgba(17, 19, 25, 0.75) !important; /* transparent dark */
+        color: white;
+      }
+      h2, h3 {
+        color: #ffcc00;
+      }
+      .reward-tier {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        transition: transform 0.3s;
+      }
+      .reward-tier:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+      }
+      .invite-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffcc00;
+        color: #111;
+        font-weight: bold;
+        padding: 15px 25px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 18px;
+        transition: transform 0.3s;
+      }
+      .invite-button:hover {
+        transform: scale(1.05);
+      }
+      .arrow-down {
+        display: block;
+        margin: 10px auto 0;
+        font-size: 24px;
+        animation: bounce 1s infinite;
+      }
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(10px); }
+      }
+      .instructions {
+        background: rgba(255,255,255,0.05);
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+      footer {
+        text-align: center;
+        color: white;
+        padding: 10px;
+      }
+    </style>
 
-           <h2>AFK Page</h2>
-           <p class="text-gray">Earn coins by staying on this page.</p>
-              <div class="row">
-                <div class="col-md-12 grid-margin stretch-card">
-                                    <div class="card">
-                    <div class="card-body">
-                <p>Every <% if (settings.api.arcio["afk page"].every !== 1) { %><%= settings.api.arcio["afk page"].every %> seconds<% } else { %>second<% } %>, you will get <%= settings.api.arcio["afk page"].coins == 1 ? "a" : settings.api.arcio["afk page"].coins %> coin<%= settings.api.arcio["afk page"].coins == 1 ? "" : "s" %></p>
-                <p>To view your current coin balance, click your username on the navigation bar</p>
-                <br>
-                <p>Websocket status: <code style="color: #007fcc;">Connected!</code></p>
-                  <script>
-                <%- arcioafktext %>
-            </script>
-                 </div>
-              </div>
+    <div class="container-scroller">
+      <!-- Default Sidebar -->
+      <%- include('./components/sidebar') %>
+
+      <div class="container-fluid page-body-wrapper">
+        <!-- Default Navbar -->
+        <%- include('./components/topnav') %>
+
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <h2>🔥 Invite Rewards</h2>
+            <p>Earn coins, server slots, RAM, and more by inviting new members!</p>
+
+            <div class="reward-tier">
+              <h3>🥉 1 Invite</h3>
+              <p>2 Server Slots or 100 Coins</p>
             </div>
+            <div class="reward-tier">
+              <h3>🥈 3 Invites</h3>
+              <p>1024 MB Disk Space or 250 Coins</p>
             </div>
-           </div>
-            <!-- content-wrapper ends -->
-          <%- include('./components/footer') %>
+            <div class="reward-tier">
+              <h3>🥇 5 Invites</h3>
+              <p>1 GB RAM or 500 Coins</p>
+            </div>
+            <div class="reward-tier">
+              <h3>🏆 8 Invites</h3>
+              <p>1 Core CPU or 799 Coins</p>
+            </div>
+
+            <div class="instructions">
+              <h3>How to earn coins by inviting:</h3>
+              <ul>
+                <li>Click the Invite button below to join our Discord.</li>
+                <li>Share your invite link with friends.</li>
+                <li>When they join, you earn the corresponding rewards.</li>
+                <li>Once you complete the required invites, create a ticket in Discord to claim your reward.</li>
+              </ul>
+            </div>
+
+            <span class="arrow-down">⬇️</span>
+            <a href="https://discord.gg/h2gUsrTDfu" target="_blank">
+              <button class="invite-button">Invite</button>
+            </a>
           </div>
-          <!-- main-panel ends -->
+
+          <!-- Custom Footer -->
+          <footer>
+            © ChunkHost | Powered by Lapiogamer
+          </footer>
         </div>
-        <!-- page-body-wrapper ends -->
       </div>
-      <!-- container-scroller -->
-      <!-- plugins:js -->
-      <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
-      <!-- endinject -->
-      <!-- Plugin js for this page -->
-      <script src="../../assets/vendors/select2/select2.min.js"></script>
-      <script src="../../assets/vendors/typeahead.js/typeahead.bundle.min.js"></script>
-      <!-- End plugin js for this page -->
-      <!-- inject:js -->
-      <script src="../../assets/js/off-canvas.js"></script>
-      <script src="../../assets/js/hoverable-collapse.js"></script>
-      <script src="../../assets/js/misc.js"></script>
-      <script src="../../assets/js/settings.js"></script>
-      <script src="../../assets/js/todolist.js"></script>
-      <!-- endinject -->
-      <!-- Custom js for this page -->
-      <script src="../../assets/js/file-upload.js"></script>
-      <script src="../../assets/js/typeahead.js"></script>
-      <script src="../../assets/js/select2.js"></script>
-      <!-- End custom js for this page -->
-    </body>
-  </html>
+    </div>
+
+    <script>
+      // White moving particles
+      const canvas = document.getElementById("particles");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particlesArray = [];
+      const numParticles = 100;
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 3 + 1;
+          this.speedX = Math.random() * 1 - 0.5;
+          this.speedY = Math.random() * 1 - 0.5;
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+          if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+        }
+        draw() {
+          ctx.fillStyle = "white";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function init() {
+        for (let i = 0; i < numParticles; i++) {
+          particlesArray.push(new Particle());
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particlesArray.forEach(p => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+
+      init();
+      animate();
+
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+
+    <%- include('./components/scripts') %>
+  </body>
+</html>
